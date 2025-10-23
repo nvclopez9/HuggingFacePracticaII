@@ -6,15 +6,13 @@ from PIL import Image
 import imageio
 import numpy as np
 
-DEVICE = "cpu"  # Forzar CPU
-
 #########################################
 # 1) TEXT → IMAGE (sd-turbo)
 #########################################
 try:
     sd_pipe = StableDiffusionPipeline.from_pretrained(
         "stabilityai/sd-turbo"
-    ).to(DEVICE)
+    )
 except Exception as e:
     sd_pipe = None
     print(f"ERROR cargando SD-Turbo: {e}")
@@ -25,8 +23,7 @@ except Exception as e:
 try:
     blip_pipe = pipeline(
         "image-to-text",
-        model="nlpconnect/vit-gpt2-image-captioning",
-        device=0 if DEVICE == "cuda" else -1
+        model="nlpconnect/vit-gpt2-image-captioning"
     )
 except Exception as e:
     blip_pipe = None
@@ -38,7 +35,7 @@ except Exception as e:
 try:
     zero123_pipe = DiffusionPipeline.from_pretrained(
         "stabilityai/zero123-xl"
-    ).to(DEVICE)
+    )
 except Exception as e:
     zero123_pipe = None
     print(f"ERROR cargando Zero123-XL: {e}")
